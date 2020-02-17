@@ -1,0 +1,15 @@
+NAME    TRACER   WINDOWAPI
+
+DESCRIPTION 'OS/2 PM Tracer Utility'
+
+CODE    MOVEABLE
+DATA    MOVEABLE MULTIPLE
+
+HEAPSIZE  1024
+STACKSIZE 4096
+
+EXPORTS
+    TracerWndProc    @1
+    HelpHook         @2
+    TracerAboutDlg   @3
+    TracerLogFileDlg @4

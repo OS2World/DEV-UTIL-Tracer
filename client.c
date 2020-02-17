@@ -6,6 +6,8 @@
 #define INCL_WIN
 #define INCL_DOS
 
+#define TDEBUG	// for tracer
+
 #include <os2.h>
 #include <stdio.h>
 #include <string.h>
@@ -13,7 +15,7 @@
 #include "client.h"
 
 // TRACER step 1 - include tracer.h
-#include "tracer.h"
+#include "trace2.h"
 
 // TRACER step 2 - declare TRACER VARIABLES
 TRACERVARIABLES
@@ -22,12 +24,12 @@ TRACERVARIABLES
 //-main()---------------------------------------
 //----------------------------------------------
 
-int cdecl main( )
+int main( )
 {
     QMSG      qmsg;
     ULONG     ctldata;
 
-    hAB = WinInitialize( NULL );
+    hAB = WinInitialize( 0 );
 
     hmqClient = WinCreateMsgQueue( hAB, 0 );
 
@@ -51,7 +53,7 @@ int cdecl main( )
                                      0L,
                                      (HMODULE)NULL,
                                      CLIENTICON,
-                                     (HWND FAR *)&hPanelWnd );
+                                     (HWND *)&hPanelWnd );
 
     WinEnableWindow( hPanelFrm, TRUE );
     WinShowWindow( hPanelFrm, TRUE );
@@ -126,7 +128,7 @@ MRESULT EXPENTRY ClientWndProc( HWND hWnd, USHORT msg,
 
     case WM_ERASEBACKGROUND:
 
-         return( TRUE );
+         return( (MRESULT)TRUE );
 
          break;
 
@@ -142,7 +144,7 @@ MRESULT EXPENTRY ClientWndProc( HWND hWnd, USHORT msg,
 //-ClientPaint()--------------------------------
 //----------------------------------------------
 
-void FAR PASCAL ClientPaint( HWND hWnd, USHORT msg,
+void ClientPaint( HWND hWnd, USHORT msg,
                              MPARAM mp1, MPARAM mp2 )
 {
 
@@ -174,4 +176,3 @@ POINTL      pt;
     GpiCharStringAt( hPS, &pt, (LONG)strlen( szMessage ), szMessage );
     WinEndPaint( hPS );
 }
-
